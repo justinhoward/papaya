@@ -93,4 +93,32 @@ describe('papaya', function() {
         p.get('shared').should.be.exactly(p.get('shared'));
         p2.should.be.exactly(p);
     });
+
+    it('can extend protected', function() {
+        var p = new Papaya();
+        var p2;
+        var func = function() {};
+        var func2 = function() {};
+        p.protect('prot', func);
+        p.extend('prot', function(orig) {
+            p2 = this;
+            orig.should.be.exactly(func);
+            return func2;
+        });
+        p.get('prot').should.be.exactly(func2);
+        p2.should.be.exactly(p);
+    });
+
+    it('can be chained', function() {
+        var p = new Papaya();
+        var p2 = p
+            .set('1', '1')
+            .protect('2', '2')
+            .factory('3', '3')
+            .extend('3', function() {})
+            .register(function() {});
+
+        p2.should.be.exactly(p);
+
+    });
 });

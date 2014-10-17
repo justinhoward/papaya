@@ -57,3 +57,14 @@ app.extend('rest', function(rest) {
 });
 
 ```
+
+Groups of services can be registered with a service provider function
+
+```javascript
+app.register(function()) {
+    this.set('api_url', 'http://example.com');
+    app.set('rest', function() {
+        return new RestApi(this.get('api_url'));
+    });
+});
+```
