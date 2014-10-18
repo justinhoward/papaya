@@ -1,5 +1,7 @@
 # Papaya
 
+[![Build Status](https://travis-ci.org/justinhoward/papaya.svg?branch=master)](https://travis-ci.org/justinhoward/papaya)
+
 Create a new instance of Papaya
 
 ```javascript
