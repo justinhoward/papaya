@@ -72,4 +72,4 @@ app.register(function()) {
 ```
 
 ### Thanks
-Thank you to [Fabien Potencier](http://fabien.potencier.org), the creator of Pimple for PHP for the inspiration for Papaya.
+Thank you to [Fabien Potencier](http://fabien.potencier.org), the creator of [Pimple](http://pimple.sensiolabs.org) for PHP for the inspiration for Papaya.
