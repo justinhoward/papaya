@@ -44,7 +44,7 @@ if you want `get` to return the function itself.
 
 ```javascript
 app.protect('alert', function(message) {
-    window.alert(message);
+    console.log(message);
 });
 
 app.get('alert')('hi');
@@ -70,3 +70,6 @@ app.register(function()) {
     });
 });
 ```
+
+### Thanks
+Thank you to [Fabien Potencier](http://fabien.potencier.org), the creator of Pimple for PHP for the inspiration for Papaya.

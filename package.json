@@ -1,7 +1,7 @@
 {
   "name": "papaya",
   "version": "1.0.1",
-  "description": "A simple DI container inspired by Pimple for PHP",
+  "description": "A minimal dependency injection container",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha"
