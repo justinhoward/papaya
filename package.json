@@ -1,6 +1,6 @@
 {
   "name": "papaya",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A minimal dependency injection container",
   "main": "index.js",
   "scripts": {

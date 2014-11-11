@@ -121,4 +121,11 @@ describe('papaya', function() {
         p2.should.be.exactly(p);
 
     });
+
+    it('should override a function service with a static service', function() {
+        var p = new Papaya();
+        p.set('test', function() {});
+        p.set('test', 'hi');
+        p.get('test').should.be.exactly('hi');
+    });
 });

@@ -9,6 +9,12 @@ var Papaya = function () {
     this._factories = {};
 };
 
+function resetService(self, name) {
+    delete self._services[name];
+    delete self._functions[name];
+    delete self._factories[name];
+}
+
 /**
  * Gets a service by name.
  *
@@ -45,6 +51,7 @@ Papaya.prototype.get = function(name) {
  * @return {this} The container
  */
 Papaya.prototype.set = function(name, service) {
+    resetService(this, name);
     if (typeof service === 'function') {
         this._functions[name] = true;
     }
@@ -68,6 +75,7 @@ Papaya.prototype.set = function(name, service) {
  * @return {this} The container
  */
 Papaya.prototype.factory = function(name, factory) {
+    resetService(this, name);
     if (typeof factory === 'function') {
         this._factories[name] = true;
     }
@@ -138,6 +146,7 @@ Papaya.prototype.extend = function(name, extender) {
  * @return {this} The container
  */
 Papaya.prototype.protect = function(name, service) {
+    resetService(this, name);
     this._services[name] = service;
     return this;
 };
