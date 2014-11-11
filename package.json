@@ -4,7 +4,7 @@
   "description": "A minimal dependency injection container",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
