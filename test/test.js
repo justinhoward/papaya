@@ -128,4 +128,34 @@ describe('papaya', function() {
         p.set('test', 'hi');
         p.get('test').should.be.exactly('hi');
     });
+
+    it('can get all the registered service keys', function() {
+        var p = new Papaya();
+        p.set('static', 'static');
+        p.set('shared', function() {});
+        p.factory('factory', function() {});
+        p.protect('protected', function() {});
+
+        var keys = p.keys();
+        keys.should.have.length(4);
+        keys.should.containEql('static');
+        keys.should.containEql('shared');
+        keys.should.containEql('factory');
+        keys.should.containEql('protected');
+    });
+
+    it('can check if it has a service', function() {
+        var p = new Papaya();
+        p.set('static', 'static');
+        p.set('shared', function() {});
+        p.factory('factory', function() {});
+        p.protect('protected', function() {});
+
+        p.has('static').should.be.exactly(true);
+        p.has('shared').should.be.exactly(true);
+        p.has('factory').should.be.exactly(true);
+        p.has('protected').should.be.exactly(true);
+
+        p.has('foo').should.be.exactly(false);
+    });
 });

@@ -167,4 +167,26 @@ Papaya.prototype.register = function(provider) {
     return this;
 };
 
+/**
+ * Get an array of the regitered service names
+ *
+ * @return {array[string]} An array of service names
+ */
+Papaya.prototype.keys = function() {
+    var keys = [], i = 0;
+    for (var key in this._services) {
+        keys[i++] = key;
+    }
+    return keys;
+};
+
+/**
+ * Check whether a service has been registered for the given name'
+ *
+ * @return {boolean} True if a service has been registered for `name`, false otherwise.
+ */
+Papaya.prototype.has = function(name) {
+    return this._services.hasOwnProperty(name);
+};
+
 module.exports = Papaya;

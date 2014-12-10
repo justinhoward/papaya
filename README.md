@@ -43,11 +43,11 @@ will get the return value of the function. Use the `protect` method
 if you want `get` to return the function itself.
 
 ```javascript
-app.protect('alert', function(message) {
+app.protect('log', function(message) {
     console.log(message);
 });
 
-app.get('alert')('hi');
+app.get('log')('hi');
 ```
 
 The `extend` method can be used to modify existing services.
@@ -69,6 +69,23 @@ app.register(function()) {
         return new RestApi(this.get('api_url'));
     });
 });
+```
+
+Get an array of all the registered services with `keys`.
+
+```javascript
+app.set('foo', 'foo value');
+app.factory('bar', function() { return 'bar value' });
+
+app.keys(); // ['foo', 'bar']
+```
+
+Check if a given service is registered with `has`.
+
+```javascript
+app.set('api_url', 'http://example.com/api');
+app.has('api_url'); // true
+app.has('foo'); // false
 ```
 
 ### Thanks
