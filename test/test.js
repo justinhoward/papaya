@@ -109,6 +109,18 @@ describe('papaya', function() {
         p2.should.be.exactly(p);
     });
 
+    it('can extend an undefined service', function() {
+        var p = new Papaya();
+        var value = 'original value';
+        p.extend('foo', function(orig) {
+            value = orig;
+            return 'new value';
+        });
+
+        p.get('foo').should.be.exactly('new value');
+        should(value).be.exactly(undefined);
+    });
+
     it('can be chained', function() {
         var p = new Papaya();
         var p2 = p
