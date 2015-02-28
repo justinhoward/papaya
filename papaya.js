@@ -45,12 +45,7 @@ Papaya.prototype.get = function(name) {
  * @return {this} The container
  */
 Papaya.prototype.set = function(name, service) {
-    resetService(this, name);
-    if (typeof service === 'function') {
-        this._functions[name] = true;
-    }
-
-    this._services[name] = service;
+    setService(this, name, service, this._functions);
     return this;
 };
 
@@ -69,12 +64,7 @@ Papaya.prototype.set = function(name, service) {
  * @return {this} The container
  */
 Papaya.prototype.factory = function(name, factory) {
-    resetService(this, name);
-    if (typeof factory === 'function') {
-        this._factories[name] = true;
-    }
-
-    this._services[name] = factory;
+    setService(this, name, factory, this._factories);
     return this;
 };
 
@@ -140,8 +130,7 @@ Papaya.prototype.extend = function(name, extender) {
  * @return {this} The container
  */
 Papaya.prototype.protect = function(name, service) {
-    resetService(this, name);
-    this._services[name] = service;
+    setService(this, name, service);
     return this;
 };
 
@@ -183,10 +172,15 @@ Papaya.prototype.has = function(name) {
     return this._services.hasOwnProperty(name);
 };
 
-function resetService(self, name) {
+function setService(self, name, service, registry) {
     delete self._services[name];
     delete self._functions[name];
     delete self._factories[name];
+    if (registry && typeof service === 'function') {
+        registry[name] = true;
+    }
+
+    self._services[name] = service;
 }
 
 module.exports = Papaya;
