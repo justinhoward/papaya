@@ -1,6 +1,8 @@
-# Papaya
+# Papaya [![npm version](https://badge.fury.io/js/papaya.svg)](http://badge.fury.io/js/papaya)
 
 [![Build Status](https://travis-ci.org/justinhoward/papaya.svg?branch=master)](https://travis-ci.org/justinhoward/papaya)
+[![Code Climate](https://codeclimate.com/github/justinhoward/papaya/badges/gpa.svg)](https://codeclimate.com/github/justinhoward/papaya)
+[![Test Coverage](https://codeclimate.com/github/justinhoward/papaya/badges/coverage.svg)](https://codeclimate.com/github/justinhoward/papaya)
 
 Create a new instance of Papaya
 
