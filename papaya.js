@@ -9,12 +9,6 @@ var Papaya = function () {
     this._factories = {};
 };
 
-function resetService(self, name) {
-    delete self._services[name];
-    delete self._functions[name];
-    delete self._factories[name];
-}
-
 /**
  * Gets a service by name.
  *
@@ -188,5 +182,11 @@ Papaya.prototype.keys = function() {
 Papaya.prototype.has = function(name) {
     return this._services.hasOwnProperty(name);
 };
+
+function resetService(self, name) {
+    delete self._services[name];
+    delete self._functions[name];
+    delete self._factories[name];
+}
 
 module.exports = Papaya;
