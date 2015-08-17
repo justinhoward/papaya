@@ -12,7 +12,7 @@ var paths = {
     src: './papaya.js',
     dist: './dist',
     release: './release',
-    release_files: ['./README.md', './LICENSE.txt', './papaya.js', './dist/*'],
+    release_files: ['./README.md', './LICENSE.txt', './bower.json', './dist/*'],
     release_zip: pkg.name + '-' + pkg.version + '.zip',
     release_tar: pkg.name + '-' + pkg.version + '.tar'
 };
@@ -31,14 +31,14 @@ gulp.task('build', function() {
 gulp.task('release', ['release-tar', 'release-zip']);
 
 gulp.task('release-tar', function() {
-    return gulp.src(paths.release_files, {base: './'})
+    return gulp.src(paths.release_files)
         .pipe(tar(paths.release_tar))
         .pipe(gzip())
         .pipe(gulp.dest(paths.release));
 });
 
 gulp.task('release-zip', function() {
-    return gulp.src(paths.release_files, {base: './'})
+    return gulp.src(paths.release_files)
         .pipe(zip(paths.release_zip))
         .pipe(gulp.dest(paths.release));
 });
