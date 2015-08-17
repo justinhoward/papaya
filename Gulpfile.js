@@ -30,14 +30,14 @@ gulp.task('build', function() {
 
 gulp.task('release', ['release-tar', 'release-zip']);
 
-gulp.task('release-tar', function() {
+gulp.task('release-tar', ['build'], function() {
     return gulp.src(paths.release_files)
         .pipe(tar(paths.release_tar))
         .pipe(gzip())
         .pipe(gulp.dest(paths.release));
 });
 
-gulp.task('release-zip', function() {
+gulp.task('release-zip', ['build'], function() {
     return gulp.src(paths.release_files)
         .pipe(zip(paths.release_zip))
         .pipe(gulp.dest(paths.release));
