@@ -16,12 +16,19 @@ after_script:
 before_deploy:
 - npm run release
 deploy:
-  provider: releases
-  api_key:
-    secure: ObsgOKwxmbfJWH7cJOgbN0LxR4qq5O9TY1wMCA4J00f9zenZGzP4gyO1Tw2MNBmAJuNK3rvdv+qSEV7jgExCyyPhw7be0mDjGaY6/e+kqclYuqRXjc+TUigm+hUxCsRj3nYvl+gjcJCnzHX658fbED/uf07IbyLSqNh1PToKh0M=
-  skip_cleanup: true
-  file_glob: true
-  file: release/papaya-*
-  on:
-    repo: justinhoward/papaya
-    tags: true
+  - provider: releases
+    api_key:
+      secure: ObsgOKwxmbfJWH7cJOgbN0LxR4qq5O9TY1wMCA4J00f9zenZGzP4gyO1Tw2MNBmAJuNK3rvdv+qSEV7jgExCyyPhw7be0mDjGaY6/e+kqclYuqRXjc+TUigm+hUxCsRj3nYvl+gjcJCnzHX658fbED/uf07IbyLSqNh1PToKh0M=
+    skip_cleanup: true
+    file_glob: true
+    file: release/papaya-*
+    on:
+      repo: justinhoward/papaya
+      tags: true
+  - provider: npm
+    email: jmhoward0@gmail.com
+    api_key:
+      secure: Itl7BrqU5ab6QKrqOI4mEB+ygp2PjCQ6P8lRULr21dvHmy1a1Of3cMJ+jOP6cRHJIVcCKy9yGcRSC/RLB5+gxv5UJf4Ic35+E54I/IvBdLSvLPmwXChFZCoWJo62ibNW2J9Q9EvPG2v1Deb3y57zfOpdaIZ6V5SFuBDkE402IWs=
+    on:
+      repo: justinhoward/papaya
+      tags: true
