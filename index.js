@@ -4,9 +4,9 @@
  * Creates a new Papaya container.
  */
 var Papaya = function () {
-    this._services = {};
-    this._functions = {};
-    this._factories = {};
+  this._services = {};
+  this._functions = {};
+  this._factories = {};
 };
 
 /**
@@ -18,16 +18,16 @@ var Papaya = function () {
  * @return {mixed|unefined} The service or undefined if it is not set
  */
 Papaya.prototype.get = function(name) {
-    if (this._factories.hasOwnProperty(name)) {
-        return this._services[name].call(this);
-    }
+  if (this._factories.hasOwnProperty(name)) {
+    return this._services[name].call(this);
+  }
 
-    if (this._functions.hasOwnProperty(name)) {
-        this._services[name] = this._services[name].call(this);
-        delete this._functions[name];
-    }
+  if (this._functions.hasOwnProperty(name)) {
+    this._services[name] = this._services[name].call(this);
+    delete this._functions[name];
+  }
 
-    return this._services[name];
+  return this._services[name];
 };
 
 /**
@@ -45,8 +45,8 @@ Papaya.prototype.get = function(name) {
  * @return {this} The container
  */
 Papaya.prototype.set = function(name, service) {
-    setService(this, name, service, this._functions);
-    return this;
+  setService(this, name, service, this._functions);
+  return this;
 };
 
 /**
@@ -64,8 +64,8 @@ Papaya.prototype.set = function(name, service) {
  * @return {this} The container
  */
 Papaya.prototype.factory = function(name, factory) {
-    setService(this, name, factory, this._factories);
-    return this;
+  setService(this, name, factory, this._factories);
+  return this;
 };
 
 /**
@@ -94,24 +94,24 @@ Papaya.prototype.factory = function(name, factory) {
  * @return {[type]}
  */
 Papaya.prototype.extend = function(name, extender) {
-    if (typeof extender !== 'function' || !this._services.hasOwnProperty(name)) {
-        return this.set(name, extender);
-    }
+  if (typeof extender !== 'function' || !this._services.hasOwnProperty(name)) {
+    return this.set(name, extender);
+  }
 
-    var extended = this._services[name];
-    var method = 'set';
-    var call = false;
+  var extended = this._services[name];
+  var method = 'set';
+  var call = false;
 
-    if (this._factories.hasOwnProperty(name)) {
-        method = 'factory';
-        call = true;
-    } else if (this._functions.hasOwnProperty(name)) {
-        call = true;
-    }
+  if (this._factories.hasOwnProperty(name)) {
+    method = 'factory';
+    call = true;
+  } else if (this._functions.hasOwnProperty(name)) {
+    call = true;
+  }
 
-    return this[method](name, function() {
-        return extender.call(this, call ? extended.call(this) : extended);
-    });
+  return this[method](name, function() {
+    return extender.call(this, call ? extended.call(this) : extended);
+  });
 };
 
 /**
@@ -130,8 +130,8 @@ Papaya.prototype.extend = function(name, extender) {
  * @return {this} The container
  */
 Papaya.prototype.protect = function(name, service) {
-    setService(this, name, service);
-    return this;
+  setService(this, name, service);
+  return this;
 };
 
 /**
@@ -146,8 +146,8 @@ Papaya.prototype.protect = function(name, service) {
  * @return {this} The container
  */
 Papaya.prototype.register = function(provider) {
-    provider.call(this);
-    return this;
+  provider.call(this);
+  return this;
 };
 
 /**
@@ -156,11 +156,11 @@ Papaya.prototype.register = function(provider) {
  * @return {array[string]} An array of service names
  */
 Papaya.prototype.keys = function() {
-    var keys = [], i = 0;
-    for (var key in this._services) {
-        keys[i++] = key;
-    }
-    return keys;
+  var keys = [], i = 0;
+  for (var key in this._services) {
+    keys[i++] = key;
+  }
+  return keys;
 };
 
 /**
@@ -169,18 +169,18 @@ Papaya.prototype.keys = function() {
  * @return {boolean} True if a service has been registered for `name`, false otherwise.
  */
 Papaya.prototype.has = function(name) {
-    return this._services.hasOwnProperty(name);
+  return this._services.hasOwnProperty(name);
 };
 
 function setService(self, name, service, registry) {
-    delete self._services[name];
-    delete self._functions[name];
-    delete self._factories[name];
-    if (registry && typeof service === 'function') {
-        registry[name] = true;
-    }
+  delete self._services[name];
+  delete self._functions[name];
+  delete self._factories[name];
+  if (registry && typeof service === 'function') {
+    registry[name] = true;
+  }
 
-    self._services[name] = service;
+  self._services[name] = service;
 }
 
 module.exports = Papaya;
