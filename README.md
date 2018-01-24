@@ -22,27 +22,11 @@ to take advantage of the [dependency inversion principle][di].
 
 ## Installation
 
-Papaya is available as a npm package, or as a UMD module.
+Papaya is available as a npm package.
 
 ##### npm
 ```bash
 npm install --save papaya
-```
-
-##### bower
-```bash
-# Replace 1.1.3 with the current version
-bower install --save https://github.com/justinhoward/papaya/releases/download/v1.1.3/papaya-1.1.3.zip
-```
-##### Download
-You can also download the [latest release][latest release] manually and include
-it in your app however you like. Here's an example using a script tag.
-
-```html
-<script src="/js/papaya.min.js"></script>
-<script>
-var app = new Papaya();
-</script>
 ```
 
 ## Getting Started
