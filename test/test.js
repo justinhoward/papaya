@@ -2,7 +2,7 @@
 "use strict";
 
 var should = require('should');
-var Papaya = require('..');
+var Papaya = require('../dist').Papaya;
 
 describe('papaya', function() {
   it('should return exact match if not a function', function() {
