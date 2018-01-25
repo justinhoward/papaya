@@ -1,7 +1,7 @@
 /* global describe, it */
 "use strict";
 
-var should = require('should');
+var expect = require('chai').expect;
 var Papaya = require('../dist').Papaya;
 
 describe('Papaya', function() {
@@ -9,7 +9,7 @@ describe('Papaya', function() {
     var p = new Papaya();
     var obj = {};
     p.constant('num', obj);
-    p.get('num').should.be.exactly(obj);
+    expect(p.get('num')).to.equal(obj);
   });
 
   it('should return same object multiple times from service', function() {
@@ -19,8 +19,8 @@ describe('Papaya', function() {
       p2 = this;
       return {};
     });
-    p.get('shared').should.be.exactly(p.get('shared'));
-    p2.should.be.exactly(p);
+    expect(p.get('shared')).to.equal(p.get('shared'));
+    expect(p2).to.equal(p)
   });
 
   it('should return different objects from factory', function() {
@@ -30,15 +30,15 @@ describe('Papaya', function() {
       p2 = this;
       return {};
     });
-    p.get('obj_factory').should.not.be.exactly(p.get('obj_factory'));
-    p2.should.be.exactly(p);
+    expect(p.get('obj_factory')).not.to.equal(p.get('obj_factory'));
+    expect(p2).to.equal(p);
   });
 
   it('should return constant function', function() {
     var p = new Papaya();
     var func = function() {};
     p.constant('protected', func);
-    p.get('protected').should.be.exactly(func);
+    expect(p.get('protected')).to.equal(func);
   });
 
   it('should call provider with papaya as context', function() {
@@ -47,7 +47,7 @@ describe('Papaya', function() {
     p.register(function() {
       p2 = this;
     });
-    p2.should.be.exactly(p);
+    expect(p2).to.equal(p)
   });
 
   it('can extend object', function() {
@@ -58,8 +58,8 @@ describe('Papaya', function() {
       orig.extended = true;
       return orig;
     });
-    p.get('obj').should.be.exactly(obj);
-    p.get('obj').extended.should.be.exactly(true);
+    expect(p.get('obj')).to.equal(obj);
+    expect(p.get('obj').extended).to.equal(true);
   });
 
   it('can extend factory', function() {
@@ -73,9 +73,9 @@ describe('Papaya', function() {
       orig.extended = true;
       return orig;
     });
-    p.get('fact').extended.should.be.exactly(true);
-    p.get('fact').should.not.be.exactly(p.get('fact'));
-    p2.should.be.exactly(p);
+    expect(p.get('fact').extended).to.equal(true);
+    expect(p.get('fact')).not.to.equal(p.get('fact'));
+    expect(p2).to.equal(p);
   });
 
   it('can extend shared', function() {
@@ -89,9 +89,9 @@ describe('Papaya', function() {
       orig.extended = true;
       return orig;
     });
-    p.get('shared').extended.should.be.exactly(true);
-    p.get('shared').should.be.exactly(p.get('shared'));
-    p2.should.be.exactly(p);
+    expect(p.get('shared').extended).to.equal(true);
+    expect(p.get('shared')).to.equal(p.get('shared'));
+    expect(p2).to.equal(p);
   });
 
   it('can extend constant function', function() {
@@ -102,17 +102,19 @@ describe('Papaya', function() {
     p.constant('prot', func);
     p.extend('prot', function(orig) {
       p2 = this;
-      orig.should.be.exactly(func);
+      expect(orig).to.equal(func)
       return func2;
     });
-    p.get('prot').should.be.exactly(func2);
-    p2.should.be.exactly(p);
+    expect(p.get('prot')).to.equal(func2);
+    expect(p2).to.equal(p);
   });
 
-  xit('cannot extend an undefined service', function() {
+  it('cannot extend an undefined service', function() {
     var p = new Papaya();
     var value = 'original value';
-    p.extend('foo', function(orig) {});
+    expect(() => {
+      p.extend('foo', function(orig) {});
+    }).to.throw('Cannot extend missing service: foo')
   });
 
   it('can be chained', function() {
@@ -124,15 +126,14 @@ describe('Papaya', function() {
       .extend('3', function() {})
       .register(function() {});
 
-    p2.should.be.exactly(p);
-
+    expect(p2).to.equal(p);
   });
 
   it('should override a function service with a static service', function() {
     var p = new Papaya();
     p.service('test', function() {});
     p.service('test', 'hi');
-    p.get('test').should.be.exactly('hi');
+    expect(p.get('test')).to.equal('hi');
   });
 
   it('can get all the registered service keys', function() {
@@ -143,11 +144,11 @@ describe('Papaya', function() {
     p.constant('protected', function() {});
 
     var keys = p.keys();
-    keys.should.have.length(4);
-    keys.should.containEql('static');
-    keys.should.containEql('shared');
-    keys.should.containEql('factory');
-    keys.should.containEql('protected');
+    expect(keys).to.have.length(4)
+    expect(keys).to.contain('static');
+    expect(keys).to.contain('shared');
+    expect(keys).to.contain('factory');
+    expect(keys).to.contain('protected');
   });
 
   it('can check if it has a service', function() {
@@ -157,11 +158,11 @@ describe('Papaya', function() {
     p.factory('factory', function() {});
     p.constant('protected', function() {});
 
-    p.has('static').should.be.exactly(true);
-    p.has('shared').should.be.exactly(true);
-    p.has('factory').should.be.exactly(true);
-    p.has('protected').should.be.exactly(true);
+    expect(p.has('static')).to.equal(true);
+    expect(p.has('shared')).to.equal(true);
+    expect(p.has('factory')).to.equal(true);
+    expect(p.has('protected')).to.equal(true);
 
-    p.has('foo').should.be.exactly(false);
+    expect(p.has('foo')).to.equal(false);
   });
 });
