@@ -1,18 +1,11 @@
 language: node_js
 node_js:
-- '4'
 - '6'
-sudo: false
-addons:
-  code_climate:
-    repo_token:
-      secure: Ol0MUyYYNUGLDy0VluDMP+rmG2LAG0f0URDvV5hoXM2fDJEaF50ptVOJUt7TZT3yJHneuRFQcRgPTOKKYDrtRECGuE44lQdigTZCkwYx7GDcAIiyiqzAyZqf62DhTBvgAk4K/lm1VwF2XV1aydEqUmc8Xvq+eqevDgP4IZCIu14=
+- '8'
+
 script:
-- npm run cover
-after_script:
-- npm run publish-coverage
-before_deploy:
-- npm run release
+  - npm test
+
 deploy:
   - provider: releases
     api_key:
@@ -30,3 +23,8 @@ deploy:
     on:
       repo: justinhoward/papaya
       tags: true
+
+addons:
+  code_climate:
+    repo_token:
+      secure: Ol0MUyYYNUGLDy0VluDMP+rmG2LAG0f0URDvV5hoXM2fDJEaF50ptVOJUt7TZT3yJHneuRFQcRgPTOKKYDrtRECGuE44lQdigTZCkwYx7GDcAIiyiqzAyZqf62DhTBvgAk4K/lm1VwF2XV1aydEqUmc8Xvq+eqevDgP4IZCIu14=
