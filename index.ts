@@ -43,7 +43,10 @@ export class Papaya {
    * @param {function|mixed} service The service singleton function or static service
    * @return {this} The container
    */
-  public service<T>(name: string, service: (container: this) => T) {
+  public service<T>(
+    name: string,
+    service: (this: this, container: this) => T
+  ) {
     this._setService(name, service, this._functions)
     return this
   }
@@ -67,7 +70,10 @@ export class Papaya {
    * @param  {function|mixed} factory The service factory function or static service
    * @return {this} The container
    */
-  public factory<T>(name: string, factory: (container: this) => T) {
+  public factory<T>(
+    name: string,
+    factory: (this: this, container: this) => T
+  ) {
     this._setService(name, factory, this._factories)
     return this
   }
@@ -99,7 +105,7 @@ export class Papaya {
    */
   public extend<T>(
     name: string,
-    extender: (extended: T, container: this) => T
+    extender: (this: this, extended: T, container: this) => T
   ) {
     if (!this.has(name)) {
       throw new Error(`Cannot extend missing service: ${name}`)
@@ -108,7 +114,11 @@ export class Papaya {
     const extended = this._services[name]
     let protect = false
     const service = () => {
-      return extender.call(this, protect ? extended : extended.call(this), this)
+      return extender.call(
+        this,
+        protect ? extended : extended.call(this, this),
+        this
+      )
     }
 
     if (this._factories[name]) {
@@ -130,7 +140,7 @@ export class Papaya {
    * @param  {function} provider The service provider function
    * @return {this} The container
    */
-  public register(provider: (container: this) => void) {
+  public register(provider: (this: this, container: this) => void) {
     provider.call(this, this)
     return this
   }

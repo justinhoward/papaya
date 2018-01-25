@@ -3,3 +3,4 @@
 /package-lock.json
 /.travis.yml
 /.tags
+/dist/test/
