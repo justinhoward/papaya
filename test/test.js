@@ -4,18 +4,18 @@
 var should = require('should');
 var Papaya = require('../dist').Papaya;
 
-describe('papaya', function() {
-  it('should return exact match if not a function', function() {
+describe('Papaya', function() {
+  it('should return exact match for contsants', function() {
     var p = new Papaya();
     var obj = {};
-    p.set('num', obj);
+    p.constant('num', obj);
     p.get('num').should.be.exactly(obj);
   });
 
-  it('should return same object multiple times from function', function() {
+  it('should return same object multiple times from service', function() {
     var p = new Papaya();
     var p2;
-    p.set('shared', function() {
+    p.service('shared', function() {
       p2 = this;
       return {};
     });
@@ -34,10 +34,10 @@ describe('papaya', function() {
     p2.should.be.exactly(p);
   });
 
-  it('should return protected function', function() {
+  it('should return constant function', function() {
     var p = new Papaya();
     var func = function() {};
-    p.protect('protected', func);
+    p.constant('protected', func);
     p.get('protected').should.be.exactly(func);
   });
 
@@ -53,7 +53,7 @@ describe('papaya', function() {
   it('can extend object', function() {
     var p = new Papaya();
     var obj = {};
-    p.set('obj', obj);
+    p.constant('obj', obj);
     p.extend('obj', function(orig) {
       orig.extended = true;
       return orig;
@@ -81,7 +81,7 @@ describe('papaya', function() {
   it('can extend shared', function() {
     var p = new Papaya();
     var p2;
-    p.set('shared', function() {
+    p.service('shared', function() {
       return {};
     });
     p.extend('shared', function(orig) {
@@ -94,12 +94,12 @@ describe('papaya', function() {
     p2.should.be.exactly(p);
   });
 
-  it('can extend protected', function() {
+  it('can extend constant function', function() {
     var p = new Papaya();
     var p2;
     var func = function() {};
     var func2 = function() {};
-    p.protect('prot', func);
+    p.constant('prot', func);
     p.extend('prot', function(orig) {
       p2 = this;
       orig.should.be.exactly(func);
@@ -109,23 +109,17 @@ describe('papaya', function() {
     p2.should.be.exactly(p);
   });
 
-  it('can extend an undefined service', function() {
+  xit('cannot extend an undefined service', function() {
     var p = new Papaya();
     var value = 'original value';
-    p.extend('foo', function(orig) {
-      value = orig;
-      return 'new value';
-    });
-
-    p.get('foo').should.be.exactly('new value');
-    should(value).be.exactly(undefined);
+    p.extend('foo', function(orig) {});
   });
 
   it('can be chained', function() {
     var p = new Papaya();
     var p2 = p
-      .set('1', '1')
-      .protect('2', '2')
+      .service('1', '1')
+      .constant('2', '2')
       .factory('3', '3')
       .extend('3', function() {})
       .register(function() {});
@@ -136,17 +130,17 @@ describe('papaya', function() {
 
   it('should override a function service with a static service', function() {
     var p = new Papaya();
-    p.set('test', function() {});
-    p.set('test', 'hi');
+    p.service('test', function() {});
+    p.service('test', 'hi');
     p.get('test').should.be.exactly('hi');
   });
 
   it('can get all the registered service keys', function() {
     var p = new Papaya();
-    p.set('static', 'static');
-    p.set('shared', function() {});
+    p.service('static', 'static');
+    p.service('shared', function() {});
     p.factory('factory', function() {});
-    p.protect('protected', function() {});
+    p.constant('protected', function() {});
 
     var keys = p.keys();
     keys.should.have.length(4);
@@ -158,10 +152,10 @@ describe('papaya', function() {
 
   it('can check if it has a service', function() {
     var p = new Papaya();
-    p.set('static', 'static');
-    p.set('shared', function() {});
+    p.service('static', 'static');
+    p.service('shared', function() {});
     p.factory('factory', function() {});
-    p.protect('protected', function() {});
+    p.constant('protected', function() {});
 
     p.has('static').should.be.exactly(true);
     p.has('shared').should.be.exactly(true);

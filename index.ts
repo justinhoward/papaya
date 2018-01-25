@@ -4,9 +4,9 @@ interface Registry { [name: string]: any }
  * Creates a new Papaya container.
  */
 export class Papaya {
-  private _services: Registry = {}
-  private _functions: Registry = {}
-  private _factories: Registry = {}
+  private _services: { [name: string]: any } = {}
+  private _functions: { [name: string]: true } = {}
+  private _factories: { [name: string]: true } = {}
 
   /**
    * Gets a service by name.
@@ -17,12 +17,12 @@ export class Papaya {
    * @return {mixed|undefined} The service or undefined if it is not set
    */
   public get<T = any>(name: string): T {
-    if (this._factories.hasOwnProperty(name)) {
-      return this._services[name].call(this)
+    if (this._factories[name]) {
+      return this._services[name].call(this, this)
     }
 
-    if (this._functions.hasOwnProperty(name)) {
-      this._services[name] = this._services[name].call(this)
+    if (this._functions[name]) {
+      this._services[name] = this._services[name].call(this, this)
       delete this._functions[name]
     }
 
@@ -43,8 +43,13 @@ export class Papaya {
    * @param {function|mixed} service The service singleton function or static service
    * @return {this} The container
    */
-  public set(name: string, service: any) {
+  public service<T>(name: string, service: (container: this) => T) {
     this._setService(name, service, this._functions)
+    return this
+  }
+
+  public constant<T>(name: string, service: T) {
+    this._setService(name, service)
     return this
   }
 
@@ -62,7 +67,7 @@ export class Papaya {
    * @param  {function|mixed} factory The service factory function or static service
    * @return {this} The container
    */
-  public factory(name: string, factory: any) {
+  public factory<T>(name: string, factory: (container: this) => T) {
     this._setService(name, factory, this._factories)
     return this
   }
@@ -92,45 +97,26 @@ export class Papaya {
    * @param  {function|mixed} extender The service extender function or static service.
    * @return {[type]}
    */
-  public extend(name: string, extender: any) {
-    if (typeof extender !== 'function' || !this._services.hasOwnProperty(name)) {
-      return this.set(name, extender)
+  public extend<T>(
+    name: string,
+    extender: (extended: T, container: this) => T
+  ) {
+    if (!this.has(name)) {
+      throw new Error(`Cannot extend missing service: ${name}`)
     }
 
     const extended = this._services[name]
-    let method: 'set' | 'factory' = 'set'
-    let call = false
-
-    if (this._factories.hasOwnProperty(name)) {
-      method = 'factory'
-      call = true
-    } else if (this._functions.hasOwnProperty(name)) {
-      call = true
+    let protect = false
+    const service = () => {
+      return extender.call(this, protect ? extended : extended.call(this), this)
     }
 
-    return this[method](name, () => {
-      return extender.call(this, call ? extended.call(this) : extended)
-    })
-  }
-
-  /**
-   * Sets a protected service by name and value.
-   *
-   * If `service` is a function, the function itself will
-   * be registered as a service. So when it is requested
-   * with `get` the function will be returned instead of
-   * the function's return value.
-   *
-   * If `service` is not a function, this method acts
-   * like `set`.
-   *
-   * @param  {string} name The service name
-   * @param  {function|mixed} service The service function or static service
-   * @return {this} The container
-   */
-  public protect(name: string, service: any) {
-    this._setService(name, service)
-    return this
+    if (this._factories[name]) {
+      return this.factory(name, service)
+    } else {
+      protect = !this._functions[name]
+      return this.service(name, service)
+    }
   }
 
   /**
@@ -144,8 +130,8 @@ export class Papaya {
    * @param  {function} provider The service provider function
    * @return {this} The container
    */
-  public register(provider: (this: this) => void) {
-    provider.call(this)
+  public register(provider: (container: this) => void) {
+    provider.call(this, this)
     return this
   }
 
@@ -155,14 +141,7 @@ export class Papaya {
    * @return {array[string]} An array of service names
    */
   public keys() {
-    const keys = []
-    let i = 0
-    for (const key in this._services) {
-      if (this.has(key)) {
-        keys[i++] = key
-      }
-    }
-    return keys
+    return Object.keys(this._services)
   }
 
   /**
