@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+tag="$(git describe --abbrev=0)"
+version="$(node -p "require('./package').version")"
+test "$tag" = "v${version}"
