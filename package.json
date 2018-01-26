@@ -9,7 +9,7 @@
     "build": "bin/build",
     "build-release": "bin/build-release",
     "doc": "typedoc index.ts",
-    "test": "mocha",
+    "test": "nyc mocha",
     "lint": "tslint --project ."
   },
   "repository": {
@@ -32,10 +32,14 @@
     "@types/mocha": "^2.2.47",
     "chai": "^4.1.2",
     "mocha": "^2.5.3",
+    "nyc": "^11.4.1",
     "source-map-support": "^0.5.2",
     "tslint": "^5.9.1",
     "tslint-config-standard": "^7.0.0",
     "typedoc": "^0.9.0",
     "typescript": "^2.6.2"
+  },
+  "nyc": {
+    "include": "dist/index.js"
   }
 }
