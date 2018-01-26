@@ -10,9 +10,10 @@ jobs:
   include:
     - stage: Release to GitHub
       node_js: '6'
-      script: npm run release
+      script: skip
       deploy:
         provider: releases
+        script: npm run build-release
         api_key:
           secure: ObsgOKwxmbfJWH7cJOgbN0LxR4qq5O9TY1wMCA4J00f9zenZGzP4gyO1Tw2MNBmAJuNK3rvdv+qSEV7jgExCyyPhw7be0mDjGaY6/e+kqclYuqRXjc+TUigm+hUxCsRj3nYvl+gjcJCnzHX658fbED/uf07IbyLSqNh1PToKh0M=
         skip_cleanup: true
