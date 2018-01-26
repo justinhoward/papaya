@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+set -ex
 
 rm -rf dist release
 tsc --project tsconfig-umd.json
