@@ -32,6 +32,7 @@ jobs:
         email: jmhoward0@gmail.com
         api_key:
           secure: 'NFwTPkLGCmYuFlLwN8YgzgPd1yC8eOd9YhIwW36e5yBYFBD2ZcBi6k0eGffMIExFoMbu9rQOZRKPT3orRlv6SPCv0xOEj2rFSGLpReNRv7HbHe7u9O/Yb5CgJKUBTlVJSvriLnAPeZJ2fI+Q334ECOsdSjFa9BKsst7oyz4cMYo='
+        skip_cleanup: true
         on:
           repo: justinhoward/papaya
           tags: true
