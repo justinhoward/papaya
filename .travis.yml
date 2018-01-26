@@ -9,7 +9,7 @@ script:
 
 jobs:
   include:
-    - stage: Release to GitHub
+    - stage: Deploy
       node_js: '6'
       script: skip
       deploy:
@@ -23,8 +23,7 @@ jobs:
         on:
           repo: justinhoward/papaya
           tags: true
-    - stage: Publish to NPM
-      node_js: '6'
+    - node_js: '6'
       script: skip
       deploy:
         provider: npm

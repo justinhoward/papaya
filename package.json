@@ -9,7 +9,7 @@
     "build": "bin/build",
     "build-release": "bin/build-release",
     "doc": "typedoc index.ts",
-    "test": "nyc mocha",
+    "test": "nyc --reporter=lcovonly --reporter=text mocha",
     "lint": "tslint --project ."
   },
   "repository": {
