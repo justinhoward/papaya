@@ -2,4 +2,5 @@
 
 tag="$(git describe --abbrev=0)"
 version="$(node -p "require('./package').version")"
-test "$tag" = "v${version}"
+gt=$(node -r semver -p "require('semver').satisfies('${version}', '>=${tag}')")
+test "$gt" = true
