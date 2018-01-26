@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
-    "lib": ["es5"],
+    "lib": ["es5", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",

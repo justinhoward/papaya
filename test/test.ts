@@ -46,7 +46,7 @@ describe('Papaya', function() {
       return orig
     })
     expect(p.get('obj')).to.equal(obj)
-    expect(p.get('obj').extended).to.equal(true)
+    expect(p.get<any>('obj').extended).to.equal(true)
   })
 
   it('can extend factory', function() {
@@ -56,7 +56,7 @@ describe('Papaya', function() {
       orig.extended = true
       return orig
     })
-    expect(p.get('fact').extended).to.equal(true)
+    expect(p.get<any>('fact').extended).to.equal(true)
     expect(p.get('fact')).not.to.equal(p.get('fact'))
   })
 
@@ -69,7 +69,7 @@ describe('Papaya', function() {
       orig.extended = true
       return orig
     })
-    expect(p.get('shared').extended).to.equal(true)
+    expect(p.get<any>('shared').extended).to.equal(true)
     expect(p.get('shared')).to.equal(p.get('shared'))
   })
 
