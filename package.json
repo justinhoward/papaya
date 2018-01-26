@@ -6,6 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "pretest": "tsc --sourceMap",
+    "build": "bin/build",
+    "build-release": "bin/build-release",
     "test": "mocha",
     "lint": "tslint --project ."
   },
