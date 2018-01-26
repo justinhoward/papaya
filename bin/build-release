@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+rm -rf dist release
+tsc --project tsconfig-umd.json
+mkdir -p release
+version="$(node -p "require('./package').version")"
+tar czvf "release/papaya-${version}.tgz" -C dist .

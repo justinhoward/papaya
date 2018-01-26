@@ -1,34 +1,44 @@
 language: node_js
 node_js:
-- '0.12'
-- '0.11'
-- '0.10'
-- 'iojs'
-sudo: false
+- '6'
+- '8'
+
+script:
+  - npm test
+  - bin/check-version
+
+after_success:
+  - node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info
+
+jobs:
+  include:
+    - stage: Deploy
+      node_js: '6'
+      script: skip
+      deploy:
+        provider: releases
+        script: npm run build-release
+        api_key:
+          secure: ObsgOKwxmbfJWH7cJOgbN0LxR4qq5O9TY1wMCA4J00f9zenZGzP4gyO1Tw2MNBmAJuNK3rvdv+qSEV7jgExCyyPhw7be0mDjGaY6/e+kqclYuqRXjc+TUigm+hUxCsRj3nYvl+gjcJCnzHX658fbED/uf07IbyLSqNh1PToKh0M=
+        skip_cleanup: true
+        file_glob: true
+        file: release/papaya-*
+        on:
+          repo: justinhoward/papaya
+          tags: true
+    - node_js: '6'
+      script: skip
+      deploy:
+        provider: npm
+        script: npm run build
+        email: jmhoward0@gmail.com
+        api_key:
+          secure: Itl7BrqU5ab6QKrqOI4mEB+ygp2PjCQ6P8lRULr21dvHmy1a1Of3cMJ+jOP6cRHJIVcCKy9yGcRSC/RLB5+gxv5UJf4Ic35+E54I/IvBdLSvLPmwXChFZCoWJo62ibNW2J9Q9EvPG2v1Deb3y57zfOpdaIZ6V5SFuBDkE402IWs=
+        on:
+          repo: justinhoward/papaya
+          tags: true
+
 addons:
   code_climate:
     repo_token:
       secure: Ol0MUyYYNUGLDy0VluDMP+rmG2LAG0f0URDvV5hoXM2fDJEaF50ptVOJUt7TZT3yJHneuRFQcRgPTOKKYDrtRECGuE44lQdigTZCkwYx7GDcAIiyiqzAyZqf62DhTBvgAk4K/lm1VwF2XV1aydEqUmc8Xvq+eqevDgP4IZCIu14=
-script:
-- npm run cover
-after_script:
-- npm run publish-coverage
-before_deploy:
-- npm run release
-deploy:
-  - provider: releases
-    api_key:
-      secure: ObsgOKwxmbfJWH7cJOgbN0LxR4qq5O9TY1wMCA4J00f9zenZGzP4gyO1Tw2MNBmAJuNK3rvdv+qSEV7jgExCyyPhw7be0mDjGaY6/e+kqclYuqRXjc+TUigm+hUxCsRj3nYvl+gjcJCnzHX658fbED/uf07IbyLSqNh1PToKh0M=
-    skip_cleanup: true
-    file_glob: true
-    file: release/papaya-*
-    on:
-      repo: justinhoward/papaya
-      tags: true
-  - provider: npm
-    email: jmhoward0@gmail.com
-    api_key:
-      secure: Itl7BrqU5ab6QKrqOI4mEB+ygp2PjCQ6P8lRULr21dvHmy1a1Of3cMJ+jOP6cRHJIVcCKy9yGcRSC/RLB5+gxv5UJf4Ic35+E54I/IvBdLSvLPmwXChFZCoWJo62ibNW2J9Q9EvPG2v1Deb3y57zfOpdaIZ6V5SFuBDkE402IWs=
-    on:
-      repo: justinhoward/papaya
-      tags: true

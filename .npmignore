@@ -1,0 +1,16 @@
+/.nyc_output/
+/.tags
+/.travis.yml
+/bin/
+/coverage/
+/dist/test/
+/doc/
+/index.ts
+/package-lock.json
+/release/
+/test/
+/tsconfig*.json
+/tslint.json
+/typedoc.js
+*.d.ts
+*.js.map
