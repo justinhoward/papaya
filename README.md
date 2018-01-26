@@ -242,6 +242,14 @@ app.has('api.url') // true
 app.has('foo') // false
 ```
 
+## Changes From Papaya 1
+
+- Add typescript support
+- Split the `set` method into `service` and `constant`.
+- Remove the `protect` method (replaced by `constant`)
+- Constants are no longer allowed in place of service functions.
+- All service functions are now passed the container as an argument
+
 ## Credits
 Created by [Justin Howard][github]
 
