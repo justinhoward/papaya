@@ -8,6 +8,7 @@
     "pretest": "tsc --sourceMap",
     "build": "bin/build",
     "build-release": "bin/build-release",
+    "doc": "typedoc index.ts",
     "test": "mocha",
     "lint": "tslint --project ."
   },
