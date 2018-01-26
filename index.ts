@@ -1,5 +1,3 @@
-interface Registry { [name: string]: any }
-
 /**
  * Creates a new Papaya container.
  */
@@ -163,7 +161,11 @@ export class Papaya {
     return this._services.hasOwnProperty(name)
   }
 
-  private _setService(name: string, service: any, registry?: Registry) {
+  private _setService(
+    name: string,
+    service: any,
+    registry?: { [name: string]: true }
+  ) {
     delete this._services[name]
     delete this._functions[name]
     delete this._factories[name]
