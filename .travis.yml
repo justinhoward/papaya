@@ -6,8 +6,6 @@ node_js:
 script:
   - npm test
   - bin/check-version
-
-after_success:
   - node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info
 
 jobs:
@@ -15,9 +13,9 @@ jobs:
     - stage: Deploy
       node_js: '6'
       script: skip
+      before_deploy: npm run build-release
       deploy:
         provider: releases
-        script: npm run build-release
         api_key:
           secure: 'klMzvFxqr8V8tw6jnghLyt+DOdlNAdt7L0ij8H0GvAGyn9XXQz3JNN+lqM3IOPpRb7odCRlN/Z2RB3KhFAxbgPnEvQA6PtQ1RIGuWucS2hGsZMq072Po50UkofvMSnZkPxbagwa9fButYcmWo0JFOS9KcTxCHdHvfSC7zXO8UsI='
         skip_cleanup: true
@@ -28,9 +26,9 @@ jobs:
           tags: true
     - node_js: '6'
       script: skip
+      before_deploy: npm run build
       deploy:
         provider: npm
-        script: npm run build
         email: jmhoward0@gmail.com
         api_key:
           secure: 'NFwTPkLGCmYuFlLwN8YgzgPd1yC8eOd9YhIwW36e5yBYFBD2ZcBi6k0eGffMIExFoMbu9rQOZRKPT3orRlv6SPCv0xOEj2rFSGLpReNRv7HbHe7u9O/Yb5CgJKUBTlVJSvriLnAPeZJ2fI+Q334ECOsdSjFa9BKsst7oyz4cMYo='
