@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/justinhoward/papaya.svg?branch=master)](https://travis-ci.org/justinhoward/papaya)
 [![Code Climate](https://codeclimate.com/github/justinhoward/papaya/badges/gpa.svg)](https://codeclimate.com/github/justinhoward/papaya)
 [![Test Coverage](https://codeclimate.com/github/justinhoward/papaya/badges/coverage.svg)](https://codeclimate.com/github/justinhoward/papaya)
+[![Known Vulnerabilities](https://snyk.io/test/github/justinhoward/papaya/badge.svg?targetFile=package.json)](https://snyk.io/test/github/justinhoward/papaya?targetFile=package.json)
 
 Papaya is a dependency injection container. It's a way to organize your
 JavaScript application to take advantage of the
