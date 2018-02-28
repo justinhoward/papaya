@@ -15,16 +15,14 @@ export class Papaya<T extends { [name: string]: any } = any> {
    * @return The service or undefined if it is not set
    */
   public get<K extends keyof T>(name: K): T[K] {
+    type Service = (this: this, container: this) => T[K]
+
     if (this._factories[name]) {
-      return (
-        this._services[name] as (this: this, container: this) => T[K]
-      ).call(this, this)
+      return (this._services[name] as Service).call(this, this)
     }
 
     if (this._functions[name]) {
-      this._services[name] = (
-        this._services[name] as (this: this, container: this) => T[K]
-      ).call(this, this)
+      this._services[name] = (this._services[name] as Service).call(this, this)
       delete this._functions[name]
     }
 
