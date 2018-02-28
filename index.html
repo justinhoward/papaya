@@ -1,0 +1,458 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>papaya</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">papaya</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> papaya</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="papaya-npm-version">Papaya <a href="http://badge.fury.io/js/papaya"><img src="https://badge.fury.io/js/papaya.svg" alt="npm version"></a></h1>
+				<p><a href="https://travis-ci.org/justinhoward/papaya"><img src="https://travis-ci.org/justinhoward/papaya.svg?branch=master" alt="Build Status"></a>
+					<a href="https://codeclimate.com/github/justinhoward/papaya"><img src="https://codeclimate.com/github/justinhoward/papaya/badges/gpa.svg" alt="Code Climate"></a>
+					<a href="https://codeclimate.com/github/justinhoward/papaya"><img src="https://codeclimate.com/github/justinhoward/papaya/badges/coverage.svg" alt="Test Coverage"></a>
+				<a href="https://snyk.io/test/github/justinhoward/papaya?targetFile=package.json"><img src="https://snyk.io/test/github/justinhoward/papaya/badge.svg?targetFile=package.json" alt="Known Vulnerabilities"></a></p>
+				<p><a href="https://github.com/justinhoward/papaya">Papaya</a> is a dependency injection
+					container. It&#39;s a way to organize your JavaScript application to take advantage
+				of the <a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">dependency inversion principle</a>.</p>
+				<ul>
+					<li><a href="#installation">Installation</a></li>
+					<li><a href="#getting-started">Getting Started</a></li>
+					<li><a href="#typescript">TypeScript</a></li>
+					<li><a href="#organizing-your-project">Organizing Your Project</a></li>
+					<li><a href="#api">API</a><ul>
+							<li><a href="#constantname-constant">constant</a></li>
+							<li><a href="#servicename-service">service</a></li>
+							<li><a href="#getname">get</a></li>
+							<li><a href="#factoryname-factory">factory</a></li>
+							<li><a href="#extendname-extender">extend</a></li>
+							<li><a href="#registerprovider">register</a></li>
+							<li><a href="#keys">keys</a></li>
+							<li><a href="#hasname">has</a></li>
+						</ul>
+					</li>
+					<li><a href="#changes">Changes</a></li>
+					<li><a href="#credits">Credits</a></li>
+				</ul>
+				<h2 id="installation">Installation</h2>
+				<p>Papaya is available as a npm package.</p>
+				<h5 id="npm">npm</h5>
+				<pre><code class="lang-bash">npm install --save papaya
+</code></pre>
+				<h2 id="getting-started">Getting Started</h2>
+				<blockquote>
+					<p>The examples here use modern JavaScript syntax, but Papaya is compatible back
+					to ES5.</p>
+				</blockquote>
+				<p>To start, create a new instance of Papaya:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Papaya } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'papaya'</span>)
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Papaya()
+</code></pre>
+				<p>The methods you will use most often in Papaya are the <code>get</code>, <code>constant</code>, and
+					<code>service</code> methods.  These allow you to create and access services and
+				attributes.</p>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// setting a constant</span>
+app.constant(<span class="hljs-string">'api.url'</span>, <span class="hljs-string">'http://example.com/api'</span>)
+
+<span class="hljs-comment">// setting a service</span>
+app.service(<span class="hljs-string">'api'</span>, () =&gt; {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RestApi(app.get(<span class="hljs-string">'api.url'</span>))
+})
+
+<span class="hljs-comment">// Now we access the api service</span>
+<span class="hljs-comment">// This would typically be done in a controller</span>
+app.get(<span class="hljs-string">'api'</span>).request()
+</code></pre>
+				<p>In this example, we set up and use an api service.</p>
+				<ol>
+					<li>First, we use the <code>constant</code> method to create an attribute called <code>api.url</code>.
+						There is no special meaning to the <code>.</code> in the service name. It&#39;s used purely
+					for clarity.</li>
+					<li>Then, we create a service called <code>api</code>. This time we use the <code>service</code>
+						method. This allows the service to be instantiated asynchronously.  The
+					<code>RestApi</code> instance won&#39;t be created until we use it on the final line.</li>
+					<li>On the last line, we use the <code>get</code> method to retrieve the instance of
+						<code>RestApi</code> and call a <code>request</code> method on it. Because of the way we defined
+						the <code>api</code> service, the <code>api.url</code> parameter will be passed into the <code>RestApi</code>
+					constructor when it is created.</li>
+				</ol>
+				<p>Once it&#39;s constructed, the <code>api</code> service will be cached, so if we call it again,
+				Papaya will use the same instance of <code>RestApi</code>.</p>
+				<h2 id="organizing-your-project">Organizing Your Project</h2>
+				<p>Feel free to manage your containers however you like, but this is the pattern I
+					typically use. To make it easier to reuse your container, you may want to extend
+				the Papaya class.</p>
+				<pre><code class="lang-javascript"># App.js
+
+const env = require(&#39;./providers/env&#39;)
+const db = require(&#39;./providers/db&#39;)
+
+module.exports = class App extends Papaya {
+  constructor() {
+    super()
+
+    this.register(env.provider)
+    this.register(db.provider)
+  }
+}
+</code></pre>
+				<p>Then split up your services into logical groups and move them into separate
+				provider files.</p>
+				<pre><code class="lang-javascript"># providers/env.js
+
+module.exports = function provider(app) {
+  app.constant(&#39;env.dbUser&#39;, process.env.DB_USER)
+  app.constant(&#39;env.dbPassword&#39;, process.env.DB_PASS)
+}
+</code></pre>
+				<pre><code class="lang-javascript"># providers/db.js
+const Database = require('./Database')
+
+module.exports = function provider(app) {
+  app.service('db', () =&gt; {
+    return new Database(app.get('env.dbUser'), app.get('env.dbPassword'))
+  })
+}
+</code></pre>
+				<p>Now when you want to boot your app, just create a new instance of your custom
+				class.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> App = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./App'</span>)
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> App()
+app.get(<span class="hljs-string">'db'</span>).connect()
+</code></pre>
+				<h2 id="typescript">TypeScript</h2>
+				<p>Papaya fully supports both JavaScript and TypeScript. To use types with your
+				container, you should define interfaces for each service.</p>
+				<pre><code class="lang-typescript"># app.ts
+<span class="hljs-keyword">import</span> { Papaya } <span class="hljs-keyword">from</span> <span class="hljs-string">'papaya'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> env <span class="hljs-keyword">from</span> <span class="hljs-string">'./providers/env'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> db <span class="hljs-keyword">from</span> <span class="hljs-string">'./providers/db'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> App <span class="hljs-keyword">extends</span> Papaya&lt;
+  EnvServices
+  &amp; DbServices
+&gt; {
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">super</span>()
+
+    <span class="hljs-keyword">this</span>.register(env.provider)
+    <span class="hljs-keyword">this</span>.register(db.provider)
+  }
+}
+</code></pre>
+				<pre><code class="lang-typescript"># providers/env.ts
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> EnvServices {
+  <span class="hljs-string">'env.baseUrl'</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-string">'env.dbUser'</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-string">'env.dbPassword'</span>: <span class="hljs-built_in">string</span>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">provider</span>(<span class="hljs-params">app: Papaya&lt;EnvServices&gt;</span>) </span>{
+  app.constant(<span class="hljs-string">'env.dbUser'</span>, process.env.DB_USER)
+  app.constant(<span class="hljs-string">'env.dbPassword'</span>, process.env.DB_PASS)
+}
+</code></pre>
+				<pre><code class="lang-typescript"># providers/db.ts
+<span class="hljs-keyword">import</span> { Database } <span class="hljs-keyword">from</span> <span class="hljs-string">'./database'</span>
+
+<span class="hljs-comment">// for providers with dependencies, define the types of the dependencies</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> DbServices {
+  <span class="hljs-string">'env.dbUser'</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-string">'env.dbPassword'</span>: <span class="hljs-built_in">string</span>
+  db: Database
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">provider</span>(<span class="hljs-params">app: Papaya&lt;DbServices&gt;</span>) </span>{
+  app.service(<span class="hljs-string">'db'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Database(app.get(<span class="hljs-string">'env.dbUser'</span>), app.get(<span class="hljs-string">'env.dbPassword'</span>))
+  })
+}
+</code></pre>
+				<p>If you strictly define your service interfaces this way, the TypeScript compiler
+				will be able to do compile-time type checking on your services.</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> db = app.get(<span class="hljs-string">'db'</span>).connect()
+# The TypeScript compiler knows that <span class="hljs-keyword">get</span> returns a <span class="hljs-string">"Database"</span>
+</code></pre>
+				<p>If you want to turn off type checking, simply set the Papaya type to <code>any</code>.</p>
+				<pre><code class="lang-typescript"><span class="hljs-comment">// to extend Papaya</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> App <span class="hljs-keyword">extends</span> Papaya&lt;<span class="hljs-built_in">any</span>&gt; {
+  ...
+}
+
+<span class="hljs-comment">// or to create a one-off instance</span>
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> Papaya&lt;<span class="hljs-built_in">any</span>&gt;()
+
+<span class="hljs-keyword">const</span> db = app.get(<span class="hljs-string">'db'</span>).connect()
+<span class="hljs-comment">// typescript will allow this</span>
+<span class="hljs-comment">// but doesn't gurantee that get returns a "Database"</span>
+</code></pre>
+				<h2 id="api">API</h2>
+				<p>The generated <a href="https://www.justinhoward.org/papaya/classes/papaya.html">API docs</a>
+				provide exact API definitions. See below for more user-friendly descriptions.</p>
+				<h3 id="constant-name-constant-">constant(name, constant)</h3>
+				<p>Creates a simple named value service from <code>constant</code>. The most common use of
+				attributes is to provide parameters for other services.</p>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// Create an attribute</span>
+app.constant(<span class="hljs-string">'urlPrefix'</span>, <span class="hljs-string">'http://example.com'</span>)
+<span class="hljs-keyword">const</span> prefix = app.get(<span class="hljs-string">'urlPrefix'</span>) <span class="hljs-comment">// http://example.com</span>
+</code></pre>
+				<h3 id="service-name-service-">service(name, service)</h3>
+				<p>Creates a singleton service.</p>
+				<p>Creates a singleton service. This is a service that will only be constructed
+					once. Services are lazy, so it will not be created until it is used. When the
+					service is requested with <code>get</code>, the function will be called to create the
+				service.</p>
+				<pre><code class="lang-javascript">app.service(<span class="hljs-string">'images'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">container</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ImageService(app.get(<span class="hljs-string">'urlPrefix'</span>))
+})
+
+app.get(<span class="hljs-string">'images'</span>).download(<span class="hljs-string">'cat'</span>)
+</code></pre>
+				<blockquote>
+					<p>Notice that <code>this</code> is used to access the Papaya instance. This is a matter of
+						preference.  Papaya sets <code>this</code> to itself when calling service functions. In
+					this example, <code>this</code>, <code>app</code>, and the <code>container</code> argument are the same thing.</p>
+				</blockquote>
+				<h3 id="get-name-">get(name)</h3>
+				<p>Gets a service or attribute by name. <code>get</code> returns the value of a service
+				regardless of the function that was used to create a service.</p>
+				<pre><code class="lang-javascript">app.constant(<span class="hljs-string">'foo'</span>, <span class="hljs-string">'abc'</span>)
+app.service(<span class="hljs-string">'bar'</span>, () =&gt; <span class="hljs-string">'123'</span>)
+app.factory(<span class="hljs-string">'baz'</span>, () =&gt; <span class="hljs-string">'xyz'</span>)
+
+app.get(<span class="hljs-string">'foo'</span>) <span class="hljs-comment">// 'abc'</span>
+app.get(<span class="hljs-string">'bar'</span>) <span class="hljs-comment">// '123'</span>
+app.get(<span class="hljs-string">'baz'</span>) <span class="hljs-comment">// 'xyz'</span>
+</code></pre>
+				<h3 id="factory-name-factory-">factory(name, factory)</h3>
+				<p>Creates a service that will be reconstructed every time it is used. <code>factory</code>
+					is similar to <code>service</code>, but it does not cache the return value of your service
+				function.</p>
+				<pre><code class="lang-javascript">app.factory(<span class="hljs-string">'api.request'</span>, () =&gt; {
+   <span class="hljs-keyword">return</span> app.get(<span class="hljs-string">'api'</span>).request()
+})
+
+<span class="hljs-comment">// Calls the factory function above</span>
+<span class="hljs-keyword">const</span> request = app.get(<span class="hljs-string">'api.request'</span>)
+
+<span class="hljs-comment">// Calls the factory function again</span>
+<span class="hljs-keyword">const</span> otherRequest = app.get(<span class="hljs-string">'api.request'</span>)
+
+<span class="hljs-comment">// request !== otherRequest</span>
+</code></pre>
+				<h3 id="extend-name-extender-extended-this-">extend(name, extender(extended, this))</h3>
+				<p>The <code>extend</code> method can be used to modify existing services.</p>
+				<pre><code class="lang-javascript">app.service(<span class="hljs-string">'api'</span> () =&gt; <span class="hljs-keyword">new</span> RestApi())
+
+app.extend(<span class="hljs-string">'api'</span>, api =&gt; {
+  api.plugin(<span class="hljs-keyword">new</span> MyPlugin())
+  <span class="hljs-keyword">return</span> api
+})
+
+app.get(<span class="hljs-string">'api'</span>) <span class="hljs-comment">// Creates RestApi with MyPlugin added</span>
+</code></pre>
+				<p>In this example, we use <code>extend</code> to add a plugin to the api service. Because we
+					defined <code>api</code> as a singleton service above, it will remain a singleton. It will
+					also remain lazy, meaning the <code>api</code> service and the extender will not be called
+				until the <code>api</code> service is used.</p>
+				<p>When extending a factory, it will remain a factory service, otherwise it will be
+					converted to a singleton service (like when using the <code>service</code> method).
+				Services can also be extended multiple times.</p>
+				<p>The <code>extender</code> function is passed 2 arguments, the previous value of the service
+					and the container. If the service does not exist when it is extended, <code>extend</code>
+					will throw an error. The <code>extender</code> function should return the new value for the
+				service.</p>
+				<h3 id="register-provider-">register(provider)</h3>
+				<p>Registers a <code>provider</code> function, a convenient way to organize services into
+				groups.</p>
+				<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">apiProvider</span>(<span class="hljs-params">container</span>) </span>{
+  container.constant(<span class="hljs-string">'api.url'</span>, <span class="hljs-string">'http://example.com'</span>)
+
+  container.service(<span class="hljs-string">'api'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RestApi(container.get(<span class="hljs-string">'api.url'</span>))
+  })
+}
+
+app.register(apiProvider)
+</code></pre>
+				<p>The <code>register</code> method itself does not create services, but it allows you to
+					register functions that create related services. In this example, we use
+				<code>register</code> to group api related services together.</p>
+				<p>The <code>provider</code> function will be called immediately when it is registered. Its
+					<code>this</code> and first argument will be set to the Papaya instance, just like in
+				<code>service</code>.</p>
+				<h3 id="keys-">keys()</h3>
+				<p>Get an array of all the registered service names with <code>keys</code>.</p>
+				<pre><code class="lang-javascript">app.constant(<span class="hljs-string">'foo'</span>, <span class="hljs-string">'123'</span>)
+app.factory(<span class="hljs-string">'bar'</span>, () =&gt; <span class="hljs-string">'abc'</span>)
+
+app.keys() <span class="hljs-comment">// ['foo', 'bar']</span>
+</code></pre>
+				<h3 id="has-name-">has(name)</h3>
+				<p>Check if a given service is registered with <code>has</code>.</p>
+				<pre><code class="lang-javascript">app.constant(<span class="hljs-string">'api.url'</span>, <span class="hljs-string">'http://example.com/api'</span>)
+
+app.has(<span class="hljs-string">'api.url'</span>) <span class="hljs-comment">// true</span>
+app.has(<span class="hljs-string">'foo'</span>) <span class="hljs-comment">// false</span>
+</code></pre>
+				<h2 id="changes">Changes</h2>
+				<h3 id="version-3">Version 3</h3>
+				<ul>
+					<li>Support strict TypeScript types</li>
+				</ul>
+				<h3 id="version-2">Version 2</h3>
+				<ul>
+					<li>Add typescript support</li>
+					<li>Split the <code>set</code> method into <code>service</code> and <code>constant</code>.</li>
+					<li>Remove the <code>protect</code> method (replaced by <code>constant</code>)</li>
+					<li>Constants are no longer allowed in place of service functions.</li>
+					<li>All service functions are now passed the container as an argument</li>
+				</ul>
+				<h2 id="credits">Credits</h2>
+				<p>Created by <a href="https://github.com/justinhoward">Justin Howard</a></p>
+				<p>Thank you to <a href="http://fabien.potencier.org">Fabien Potencier</a>, the creator of <a href="http://pimple.sensiolabs.org">Pimple</a> for PHP
+				for the inspiration for Papaya.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/papaya.html" class="tsd-kind-icon">Papaya</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
