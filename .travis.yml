@@ -13,6 +13,18 @@ jobs:
     - stage: Deploy
       node_js: '6'
       script: skip
+      before_deploy: npm run doc
+      deploy:
+        provider: pages
+        github-token:
+          secure: 'klMzvFxqr8V8tw6jnghLyt+DOdlNAdt7L0ij8H0GvAGyn9XXQz3JNN+lqM3IOPpRb7odCRlN/Z2RB3KhFAxbgPnEvQA6PtQ1RIGuWucS2hGsZMq072Po50UkofvMSnZkPxbagwa9fButYcmWo0JFOS9KcTxCHdHvfSC7zXO8UsI='
+        local-dir: doc
+        skip_cleanup: true
+        on:
+          repo: justinhoward/papaya
+          branch: master
+    - node_js: '6'
+      script: skip
       before_deploy: npm run build-release
       deploy:
         provider: releases
