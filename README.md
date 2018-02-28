@@ -5,9 +5,9 @@
 [![Test Coverage](https://codeclimate.com/github/justinhoward/papaya/badges/coverage.svg)](https://codeclimate.com/github/justinhoward/papaya)
 [![Known Vulnerabilities](https://snyk.io/test/github/justinhoward/papaya/badge.svg?targetFile=package.json)](https://snyk.io/test/github/justinhoward/papaya?targetFile=package.json)
 
-Papaya is a dependency injection container. It's a way to organize your
-JavaScript application to take advantage of the
-[dependency inversion principle][di].
+[Papaya](https://github.com/justinhoward/papaya) is a dependency injection
+container. It's a way to organize your JavaScript application to take advantage
+of the [dependency inversion principle][di].
 
 - [Installation](#installation)
 - [Getting Started](#getting-started)
@@ -212,6 +212,9 @@ const db = app.get('db').connect()
 ```
 
 ## API
+
+The generated [API docs](https://www.justinhoward.org/papaya/classes/papaya.html)
+provide exact API definitions. See below for more user-friendly descriptions.
 
 ### constant(name, constant)
 
