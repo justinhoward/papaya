@@ -5,4 +5,8 @@ rm -rf dist release
 tsc --project tsconfig-umd.json
 mkdir -p release
 version="$(node -p "require('./package').version")"
-tar czvf "release/papaya-${version}.tgz" -C dist .
+(
+  cd dist
+  tar czvf "../release/papaya-${version}.tgz" .
+  zip -r "../release/papaya-${version}.zip" .
+)

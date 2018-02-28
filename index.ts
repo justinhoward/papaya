@@ -1,7 +1,7 @@
 /**
  * A Papaya container
  */
-export class Papaya {
+export class Papaya<T extends { [name: string]: any } = any> {
   private _services: { [name: string]: any } = {}
   private _functions: { [name: string]: true } = {}
   private _factories: { [name: string]: true } = {}
@@ -14,13 +14,17 @@ export class Papaya {
    * @param name The service name
    * @return The service or undefined if it is not set
    */
-  public get<T>(name: string): T {
+  public get<K extends keyof T>(name: K): T[K] {
     if (this._factories[name]) {
-      return this._services[name].call(this, this)
+      return (
+        this._services[name] as (this: this, container: this) => T[K]
+      ).call(this, this)
     }
 
     if (this._functions[name]) {
-      this._services[name] = this._services[name].call(this, this)
+      this._services[name] = (
+        this._services[name] as (this: this, container: this) => T[K]
+      ).call(this, this)
       delete this._functions[name]
     }
 
@@ -33,7 +37,7 @@ export class Papaya {
    * @param name The service name
    * @param constant The value to be set
    */
-  public constant<T>(name: string, constant: T) {
+  public constant<K extends keyof T>(name: K, constant: T[K]): this {
     this._setService(name, constant)
     return this
   }
@@ -48,10 +52,10 @@ export class Papaya {
    * @param name The service name
    * @param service The service singleton function or static service
    */
-  public service<T>(
-    name: string,
-    service: (this: this, container: this) => T
-  ) {
+  public service<K extends keyof T>(
+    name: K,
+    service: (this: this, container: this) => T[K]
+  ): this {
     this._setService(name, service, this._functions)
     return this
   }
@@ -65,10 +69,10 @@ export class Papaya {
    * @param name The service name
    * @param factory The service factory function or static service
    */
-  public factory<T>(
-    name: string,
-    factory: (this: this, container: this) => T
-  ) {
+  public factory<K extends keyof T>(
+    name: K,
+    factory: (this: this, container: this) => T[K]
+  ): this {
     this._setService(name, factory, this._factories)
     return this
   }
@@ -94,10 +98,10 @@ export class Papaya {
    * @param name The service name
    * @param extender The service extender function or static service.
    */
-  public extend<T>(
+  public extend<K extends keyof T>(
     name: string,
-    extender: (this: this, extended: T, container: this) => T
-  ) {
+    extender: (this: this, extended: T[K], container: this) => T[K]
+  ): this {
     if (!this.has(name)) {
       throw new Error(`Cannot extend missing service: ${name}`)
     }
@@ -129,7 +133,7 @@ export class Papaya {
    *
    * @param provider The service provider function
    */
-  public register(provider: (this: this, container: this) => void) {
+  public register(provider: (this: this, container: Papaya<any>) => void) {
     provider.call(this, this)
     return this
   }
@@ -139,7 +143,7 @@ export class Papaya {
    *
    * @return An array of service names
    */
-  public keys() {
+  public keys(): Array<keyof T> {
     return Object.keys(this._services)
   }
 
@@ -148,7 +152,7 @@ export class Papaya {
    *
    * @return True if a service has been registered for `name`, false otherwise.
    */
-  public has(name: string) {
+  public has<K extends keyof T>(name: K): boolean {
     return this._services.hasOwnProperty(name)
   }
 

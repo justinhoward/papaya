@@ -198,4 +198,35 @@ describe('Papaya', function() {
     expect(self).to.equal(app)
     expect(arg).to.equal(app)
   })
+
+  it('allows strict type checking', function() {
+    interface EnvServices {
+      'env.dbUser': string
+    }
+
+    interface DbServices {
+      'env.dbUser': string
+      db: { user(): string }
+    }
+
+    const envService = function(app: Papaya<EnvServices>) {
+      app.constant('env.dbUser', 'foo')
+    }
+
+    const dbService = function(app: Papaya<DbServices>) {
+      app.service('db', () => {
+        return {
+          user() {
+            return app.get('env.dbUser')
+          }
+        }
+      })
+    }
+
+    const app = new Papaya<EnvServices & DbServices>()
+    app.register(envService)
+    app.register(dbService)
+
+    expect(app.get('db').user()).to.eq('foo')
+  })
 })

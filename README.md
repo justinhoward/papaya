@@ -11,6 +11,7 @@ JavaScript application to take advantage of the
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [TypeScript](#typescript)
+- [Organizing Your Project](#organizing-your-project)
 - [API](#api)
   - [constant](#constantname-constant)
   - [service](#servicename-service)
@@ -20,6 +21,7 @@ JavaScript application to take advantage of the
   - [register](#registerprovider)
   - [keys](#keys)
   - [has](#hasname)
+- [Changes](#changes)
 - [Credits](#credits)
 
 ## Installation
@@ -77,24 +79,135 @@ In this example, we set up and use an api service.
 Once it's constructed, the `api` service will be cached, so if we call it again,
 Papaya will use the same instance of `RestApi`.
 
+## Organizing Your Project
+
+Feel free to manage your containers however you like, but this is the pattern I
+typically use. To make it easier to reuse your container, you may want to extend
+the Papaya class.
+
+```javascript
+# App.js
+
+const env = require('./providers/env')
+const db = require('./providers/db')
+
+module.exports = class App extends Papaya {
+  constructor() {
+    super()
+
+    this.register(env.provider)
+    this.register(db.provider)
+  }
+}
+```
+
+Then split up your services into logical groups and move them into separate
+provider files.
+
+```javascript
+# providers/env.js
+
+module.exports = function provider(app) {
+  app.constant('env.dbUser', process.env.DB_USER)
+  app.constant('env.dbPassword', process.env.DB_PASS)
+}
+```
+
+```javascript
+# providers/db.js
+const Database = require('./Database')
+
+module.exports = function provider(app) {
+  app.service('db', () => {
+    return new Database(app.get('env.dbUser'), app.get('env.dbPassword'))
+  })
+}
+```
+
+Now when you want to boot your app, just create a new instance of your custom
+class.
+```javascript
+const App = require('./App')
+const app = new App()
+app.get('db').connect()
+```
+
 ## TypeScript
 
 Papaya fully supports both JavaScript and TypeScript. To use types with your
-container, simply add the appropriate type annotation to the `get` method.
+container, you should define interfaces for each service.
 
 ```typescript
+# app.ts
 import { Papaya } from 'papaya'
-const app = new Papaya()
+import * as env from './providers/env'
+import * as db from './providers/db'
 
-app.constant('api.url', 'http://example.com/api')
-app.service('api', () => {
-  return new RestApi(app.get('api.url'))
-})
+export class App extends Papaya<
+  EnvServices
+  & DbServices
+> {
+  constructor() {
+    super()
 
-// Here we explicitly declare the type to be RestApi so we have access to the
-// request method
-const api: RestApi = app.get('api')
-api.request()
+    this.register(env.provider)
+    this.register(db.provider)
+  }
+}
+```
+```typescript
+# providers/env.ts
+export interface EnvServices {
+  'env.baseUrl': string
+  'env.dbUser': string
+  'env.dbPassword': string
+}
+
+export function provider(app: Papaya<EnvServices>) {
+  app.constant('env.dbUser', process.env.DB_USER)
+  app.constant('env.dbPassword', process.env.DB_PASS)
+}
+```
+```typescript
+# providers/db.ts
+import { Database } from './database'
+
+// for providers with dependencies, define the types of the dependencies
+export interface DbServices {
+  'env.dbUser': string
+  'env.dbPassword': string
+  db: Database
+}
+
+export function provider(app: Papaya<DbServices>) {
+  app.service('db', () => {
+    return new Database(app.get('env.dbUser'), app.get('env.dbPassword'))
+  })
+}
+```
+
+If you strictly define your service interfaces this way, the TypeScript compiler
+will be able to do compile-time type checking on your services.
+
+```typescript
+const db = app.get('db').connect()
+# The TypeScript compiler knows that get returns a "Database"
+```
+
+If you want to turn off type checking, simply set the Papaya type to `any`.
+
+```typescript
+// to extend Papaya
+export class App extends Papaya<any> {
+  ...
+}
+
+// or to create a one-off instance
+const app = new Papaya<any>()
+
+const db = app.get('db').connect()
+// typescript will allow this
+// but doesn't gurantee that get returns a "Database"
 ```
 
 ## API
@@ -242,7 +355,13 @@ app.has('api.url') // true
 app.has('foo') // false
 ```
 
-## Changes From Papaya 1
+## Changes
+
+### Version 3
+
+- Support strict TypeScript types
+
+### Version 2
 
 - Add typescript support
 - Split the `set` method into `service` and `constant`.
